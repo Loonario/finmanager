@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  # Backend API
+  dev:
+    container_name: finmanager_nest_dev
+    image: finmanager_nest_dev:1.0.0
+    build:
+        context: .
+        target: development
+        dockerfile: ./Dockerfile
+    command: npm run start:debug
+    env_file:
+      - .env
+    working_dir: /usr/src/finmanager
+    environment:
+      POSTGRES_URI: postgres://${TYPEORM_USERNAME}:${TYPEORM_PASSWORD}@${TYPEORM_CONNECTION}:${TYPEORM_PORT}/finmanager
+
+      # REDIS_URI: ${REDIS_URI}
+    ports:
+      - ${TYPEORM_PORT}:${TYPEORM_PORT}
+    # networks:
+    #         - nestjs-network
+    volumes:
+      - .:/usr/src/finmanager
+      - /usr/src/finmanager/node_modules
+    restart: unless-stopped
+
+  prod:
+    container_name: finmanager_nest_prod
+    image: finmanager_nest_prod:1.0.0
+    build:
+        context: .
+        target: production
+        dockerfile: ./Dockerfile
+    command: npm run start:prod
+    working_dir: /usr/src/finmanager
+    environment:
+      POSTGRES_URI: postgres://${TYPEORM_USERNAME}:${TYPEORM_PASSWORD}@${TYPEORM_CONNECTION}:${TYPEORM_PORT}/finmanager
+
+      # REDIS_URI: ${REDIS_URI}
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    # networks:
+    #         - nestjs-network
+    volumes:
+      - .:/usr/src/finmanager
+      - /usr/src/finmanager/node_modules
+    restart: unless-stopped
+
+  # Postgres
+  postgres:
+    # networks:
+    #   - nestjs-network
+    environment:
+      POSTGRES_USER: ${TYPEORM_USERNAME}
+      POSTGRES_PASSWORD: ${TYPEORM_PASSWORD}
+      POSTGRES_DB: ${TYPEORM_DATABASE}
+      POSTGRES_HOST: ${TYPEORM_CONNECTION}
+    build: ./postgres
+    ports:
+      - ${TYPEORM_PORT}:${TYPEORM_PORT}
+    restart: always
+
+ 
+  # # Redis
+  # redis:
+  #   image: redis
+  #   ports:
+  #     - ${REDIS_PORT}:${REDIS_PORT}

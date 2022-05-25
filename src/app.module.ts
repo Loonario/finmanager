@@ -5,10 +5,13 @@ import { BankModule } from './bank/bank.module';
 import { CategoryModule } from './category/category.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { Bank } from './bank/entities/bank.entity';
 import { Category } from './category/entities/category.entity';
 import { Transaction } from './transaction/entities/transaction.entity';
+import { User } from './user/entities/user.entity';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [BankModule, 
@@ -26,12 +29,14 @@ import { Transaction } from './transaction/entities/transaction.entity';
         password: config.get<string>('TYPEORM_PASSWORD'),
         database: config.get<string>('TYPEORM_DATABASE'),
         port: config.get<number>('TYPEORM_PORT'),
-        entities: [ Bank, Category, Transaction],
+        entities: [ User, Bank, Category, Transaction],
         synchronize: true,
         autoLoadEntities: true,
         logging: true,
       }),
-    })
+    }),
+    AuthModule,
+    UserModule
   ],
   controllers: [AppController],
   providers: [AppService],

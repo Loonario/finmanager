@@ -15,7 +15,7 @@ services:
     working_dir: /usr/src/finmanager
     environment:
       POSTGRES_URI: postgres://${TYPEORM_USERNAME}:${TYPEORM_PASSWORD}@${TYPEORM_CONNECTION}:${TYPEORM_PORT}/finmanager
-
+      TZ: ${TZ}
       # REDIS_URI: ${REDIS_URI}
     ports:
       - ${TYPEORM_PORT}:${TYPEORM_PORT}
@@ -24,6 +24,8 @@ services:
     volumes:
       - .:/usr/src/finmanager
       - /usr/src/finmanager/node_modules
+      # - /etc/timezone:/etc/timezone:ro
+      # - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
 
   prod:
@@ -37,7 +39,7 @@ services:
     working_dir: /usr/src/finmanager
     environment:
       POSTGRES_URI: postgres://${TYPEORM_USERNAME}:${TYPEORM_PASSWORD}@${TYPEORM_CONNECTION}:${TYPEORM_PORT}/finmanager
-
+      TZ: ${TZ}
       # REDIS_URI: ${REDIS_URI}
     ports:
       - ${APP_PORT}:${APP_PORT}
@@ -46,6 +48,8 @@ services:
     volumes:
       - .:/usr/src/finmanager
       - /usr/src/finmanager/node_modules
+      # - /etc/timezone:/etc/timezone:ro
+      # - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
 
   # Postgres
@@ -57,9 +61,17 @@ services:
       POSTGRES_PASSWORD: ${TYPEORM_PASSWORD}
       POSTGRES_DB: ${TYPEORM_DATABASE}
       POSTGRES_HOST: ${TYPEORM_CONNECTION}
+      TZ: ${TZ}
+    # command: >
+    #   sh -c "ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && 
+    #   echo $TZ > /etc/timezone &&
+    #   exec my-main-application"
     build: ./postgres
     ports:
       - ${TYPEORM_PORT}:${TYPEORM_PORT}
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     restart: always
 
  

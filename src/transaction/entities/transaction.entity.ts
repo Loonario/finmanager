@@ -31,8 +31,9 @@ export class Transaction {
     @Column({
       type: 'enum',
       enum: transactionType,
+      name: 'transaction_type'
     })
-    type: string;
+    trType: transactionType;
   
     @Column({
       type: 'numeric',

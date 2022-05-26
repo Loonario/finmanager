@@ -6,12 +6,13 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  app.enableCors();
 const config = new DocumentBuilder()
   .setTitle('FinManager')
   .setDescription('Codica testing project')
   .setVersion(packageJson.version)
   .addTag('cashFlow')
+  .addBearerAuth()
   .build();
 const document = SwaggerModule.createDocument(app, config);
 SwaggerModule.setup('api', app, document);

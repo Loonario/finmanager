@@ -20,7 +20,8 @@ export class Bank extends BaseEntity {
     name: string;
   
     @Column({
-        type: 'numeric'
+        type: 'numeric',
+        default: 0
     })
     balance: number;
   

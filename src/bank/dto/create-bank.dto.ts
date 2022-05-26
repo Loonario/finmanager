@@ -1,26 +1,27 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString } from "class-validator";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { IsCreditCard, IsNotEmpty, IsNumber, IsString} from "class-validator";
 
 export class CreateBankDto {
-    @IsNotEmpty()
-    @IsString()
-    @ApiProperty()
-    readonly name: string;
 
-    @ApiProperty({
+    @ApiProperty()
+    @IsString()
+    @IsNotEmpty()
+     name: string;
+
+     @IsNumber()
+    @ApiPropertyOptional({
         default: 0,
-        required: false
+        type: Number
     })
-    readonly balance?: number;
 
-    @IsNotEmpty()
-    @IsString()
-    @ApiProperty()
-    readonly card_number: string;
+     balance?: number;
 
-    constructor({name, balance, card_number}: CreateBankDto){
-        this.name = name;
-        this.balance = balance;
-        this.card_number = card_number;
-    }
+     @ApiProperty({
+         example: "375556917985515"
+     })
+     @IsString()
+     @IsNotEmpty()
+     @IsCreditCard()
+     card_number: string;
+
   }

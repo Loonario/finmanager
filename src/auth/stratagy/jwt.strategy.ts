@@ -17,7 +17,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-expired') {
          });}
 
         async validate(payload: {
-            sub: number,
+            sub: string,
             userName: string 
         }){
             const user = await this.userRepository.findOne(payload.sub);

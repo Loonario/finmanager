@@ -1,5 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString } from "class-validator"
+import { ApiHeader, ApiProperty } from "@nestjs/swagger";
+import { IsJWT, IsNotEmpty, IsString } from "class-validator"
 
 export class AuthDto {
     @IsString()
@@ -11,6 +11,7 @@ export class AuthDto {
     @IsNotEmpty()
     @ApiProperty()
     readonly password: string
+
 
     // constructor({name, password}: AuthDto){
     //     this.name = name;

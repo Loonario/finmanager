@@ -17,7 +17,14 @@ import {
 import { TransactionService } from './transaction.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
-import { ApiBearerAuth, ApiExtraModels, ApiOkResponse, ApiSecurity, ApiTags, getSchemaPath } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiExtraModels,
+  ApiOkResponse,
+  ApiSecurity,
+  ApiTags,
+  getSchemaPath,
+} from '@nestjs/swagger';
 import { GetUser } from 'src/auth/decorator';
 import { JwtGuard } from 'src/auth/guard';
 import { User } from 'src/user/entities/user.entity';
@@ -37,22 +44,21 @@ export class TransactionController {
   @Post(':bankId')
   @UsePipes(new ValidationPipe({ transform: true }))
   create(
-    @Param('bankId', new ParseUUIDPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }))
-     bankId:string,
+    @Param(
+      'bankId',
+      new ParseUUIDPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    bankId: string,
     @Body() createTransactionDto: CreateTransactionDto,
-    @GetUser() user: User
+    @GetUser() user: User,
   ): Promise<Transaction> {
-  
     return this.transactionService.create(bankId, createTransactionDto);
   }
-
 
   @ApiPaginatedResponse(CreateTransactionDto)
   @ApiExtraModels(PaginatedDto)
   @Get()
-  findAll(
-    @Query() pageOptionsDto: PageOptionsDto
-  ) {
+  findAll(@Query() pageOptionsDto: PageOptionsDto) {
     return this.transactionService.findAll(pageOptionsDto);
   }
 

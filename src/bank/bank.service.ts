@@ -30,7 +30,9 @@ export class BankService {
   }
 
   async findOne(id: string) {
-    const newBank = await this.banksRepository.findOne(id, {relations: ['transactions']});
+    const newBank = await this.banksRepository.findOne(id, {
+      relations: ['transactions'],
+    });
     if (!newBank) {
       throw new HttpException('Bank not found', HttpStatus.NOT_FOUND);
     }

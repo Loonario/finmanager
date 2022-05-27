@@ -34,7 +34,7 @@ export class Transaction {
   @Column({
     type: 'enum',
     enum: transactionType,
-    name: 'transaction_type'
+    name: 'transaction_type',
   })
   trType: transactionType;
 
@@ -47,7 +47,7 @@ export class Transaction {
   // @ManyToMany(() => Bank)
   // banks: Bank[];
 
-  @ManyToMany(() => Bank, (bank) => bank.id, {eager: true})
+  @ManyToMany(() => Bank, (bank) => bank.id, { eager: true })
   @JoinTable({
     name: 'transactions_banks',
     joinColumn: {

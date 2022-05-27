@@ -6,10 +6,10 @@ import { StatsService } from './stats.service';
 @ApiTags('stats')
 @Controller('stats')
 export class StatsController {
-    constructor(private readonly statsService: StatsService) {}
+  constructor(private readonly statsService: StatsService) {}
 
-@Post()
-catSum(@Body() statsDto: StatsDto){
+  @Post()
+  catSum(@Body() statsDto: StatsDto) {
     return this.statsService.catSum(statsDto);
-}
+  }
 }

@@ -8,9 +8,11 @@ import { Category } from 'src/category/entities/category.entity';
 import { BankService } from 'src/bank/bank.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Transaction]),
-  TypeOrmModule.forFeature([Bank]),
-  TypeOrmModule.forFeature([Category])],
+  imports: [
+    TypeOrmModule.forFeature([Transaction]),
+    TypeOrmModule.forFeature([Bank]),
+    TypeOrmModule.forFeature([Category]),
+  ],
   controllers: [TransactionController],
   providers: [TransactionService],
 })

@@ -42,19 +42,19 @@ export class Bank extends BaseEntity {
   @ManyToMany(() => Transaction, (transaction) => transaction.id)
   transactions: Transaction[];
 
-//   @ManyToMany(() => Transaction)
-//   @JoinTable({
-//     name: 'banks_transactions',
-//     joinColumn: {
-//       name: 'bank',
-//       referencedColumnName: 'id',
-//     },
-//     inverseJoinColumn: {
-//       name: 'transaction',
-//       referencedColumnName: 'id',
-//     },
-//   })
-//   transactions: Transaction[];
+  //   @ManyToMany(() => Transaction)
+  //   @JoinTable({
+  //     name: 'banks_transactions',
+  //     joinColumn: {
+  //       name: 'bank',
+  //       referencedColumnName: 'id',
+  //     },
+  //     inverseJoinColumn: {
+  //       name: 'transaction',
+  //       referencedColumnName: 'id',
+  //     },
+  //   })
+  //   transactions: Transaction[];
 
   // @OneToMany(
   //     () => Transaction,

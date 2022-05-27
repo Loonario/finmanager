@@ -11,7 +11,10 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import { Transaction, transactionType } from '../../transaction/entities/transaction.entity';
+import {
+  Transaction,
+  transactionType,
+} from '../../transaction/entities/transaction.entity';
 
 @Entity('category')
 export class Category {
@@ -30,8 +33,6 @@ export class Category {
   updated_at: Date;
 
   @ManyToMany(() => Transaction, (transaction) => transaction.id)
-
-
   @JoinTable({
     name: 'transactions_categories',
     joinColumn: {

@@ -3,7 +3,6 @@ import { Type } from 'class-transformer';
 import { IsInt, IsOptional, Max, Min } from 'class-validator';
 
 export class PageOptionsDto {
-
   @ApiPropertyOptional({
     minimum: 1,
     default: 1,
@@ -29,7 +28,4 @@ export class PageOptionsDto {
   get skip(): number {
     return (this.page - 1) * this.take;
   }
-
-
-
 }

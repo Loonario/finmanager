@@ -6,9 +6,11 @@ import { StatsController } from './stats.controller';
 import { StatsService } from './stats.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Category]),
-  TypeOrmModule.forFeature([Transaction])],
+  imports: [
+    TypeOrmModule.forFeature([Category]),
+    TypeOrmModule.forFeature([Transaction]),
+  ],
   controllers: [StatsController],
-  providers: [StatsService]
+  providers: [StatsService],
 })
 export class StatsModule {}

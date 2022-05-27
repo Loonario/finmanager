@@ -44,7 +44,7 @@ export class BankController {
   update(
     @Param(
       'id',
-      new ParseUUIDPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })
+      new ParseUUIDPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
     )
     id: string,
     @Body() updateBankDto: UpdateBankDto,

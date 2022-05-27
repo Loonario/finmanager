@@ -30,6 +30,19 @@ export class Category {
   updated_at: Date;
 
   @ManyToMany(() => Transaction, (transaction) => transaction.id)
+
+
+  @JoinTable({
+    name: 'transactions_categories',
+    joinColumn: {
+      name: 'category',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'transaction',
+      referencedColumnName: 'id',
+    },
+  })
   transactions: Transaction[];
 
   // @ManyToMany(() => Transaction)

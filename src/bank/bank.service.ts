@@ -49,6 +49,15 @@ export class BankService {
   }
 
   async remove(id: string) {
+
+    const bank = await this.banksRepository.findOne(id);
+    const banks = await this.banksRepository.find({
+      relations: ['transactions'],
+      where: { id: bank.id },
+    });
+    if(banks.length > 0){
+      throw new HttpException('Bank has transactions', HttpStatus.FORBIDDEN);
+    }
     const delBank = await this.banksRepository.delete(id);
     if (!delBank.affected) {
       throw new HttpException('Bank not found', HttpStatus.NOT_FOUND);

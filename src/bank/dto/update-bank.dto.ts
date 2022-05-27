@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsCreditCard, IsNumber, IsString } from 'class-validator';
 import { CreateBankDto } from './create-bank.dto';
 

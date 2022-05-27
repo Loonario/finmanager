@@ -9,14 +9,13 @@ import {
   UseGuards,
   ParseUUIDPipe,
   HttpStatus,
-  Injectable,
   UsePipes,
   ValidationPipe,
   Query,
 } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { UpdateTransactionDto } from './dto/update-transaction.dto';
+// import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import {
   ApiBearerAuth,
   ApiExtraModels,
@@ -62,18 +61,18 @@ export class TransactionController {
     return this.transactionService.findAll(pageOptionsDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.transactionService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.transactionService.findOne(+id);
+  // }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateTransactionDto: UpdateTransactionDto,
-  ) {
-    return this.transactionService.update(+id, updateTransactionDto);
-  }
+  // @Patch(':id')
+  // update(
+  //   @Param('id') id: string,
+  //   @Body() updateTransactionDto: UpdateTransactionDto,
+  // ) {
+  //   return this.transactionService.update(+id, updateTransactionDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

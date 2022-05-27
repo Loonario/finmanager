@@ -6,7 +6,6 @@ import {
   IsNumber,
   IsString,
 } from 'class-validator';
-import { Category } from 'src/category/entities/category.entity';
 
 export class StatsDto {
   @ApiPropertyOptional()

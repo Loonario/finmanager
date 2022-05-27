@@ -47,6 +47,19 @@ export class CategoryService {
   }
 
   async remove(id: number) {
+    const allCats = await this.categoryRepository.find();
+    if(id <= 0 || id > allCats.length - 1){
+      throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
+    }
+
+    const cat = await this.categoryRepository.findOne(id);
+    const cats = await this.categoryRepository.find({
+      relations: ['transactions'],
+      where: { id: cat.id },
+    });
+    if(cats.length > 0){
+      throw new HttpException('Category has transactions', HttpStatus.FORBIDDEN);
+    }
     const delCategory = await this.categoryRepository.delete(id);
     if (!delCategory.affected) {
       throw new HttpException('Category not found', HttpStatus.NOT_FOUND);

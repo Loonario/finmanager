@@ -1,4 +1,4 @@
-import { User } from 'src/user/entities/user.entity';
+// import { User } from 'src/user/entities/user.entity';
 import {
   Entity,
   BaseEntity,
@@ -34,20 +34,14 @@ export class Transaction {
   @Column({
     type: 'enum',
     enum: transactionType,
-    name: 'transaction_type',
+    name: 'transaction_type'
   })
   trType: transactionType;
 
   @Column()
   amount: number;
 
-  // @ManyToMany(() => Category)
-  // categories: Category[];
-
-  // @ManyToMany(() => Bank)
-  // banks: Bank[];
-
-  @ManyToMany(() => Bank, (bank) => bank.id, { eager: true })
+  @ManyToMany(() => Bank, (bank) => bank.id, {onDelete: "CASCADE"})
   @JoinTable({
     name: 'transactions_banks',
     joinColumn: {
@@ -61,7 +55,7 @@ export class Transaction {
   })
   banks: Bank[];
 
-  @ManyToMany(() => Category, (category) => category.id)
+  @ManyToMany(() => Category, (category) => category.id, {onDelete: "CASCADE"})
   @JoinTable({
     name: 'transactions_categories',
     joinColumn: {
@@ -74,6 +68,7 @@ export class Transaction {
     },
   })
   categories: Category[];
+
 
   // @ManyToOne(() => Bank, (bank) => bank.transactions)
   // @JoinColumn({

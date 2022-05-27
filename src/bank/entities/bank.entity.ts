@@ -1,4 +1,4 @@
-import { User } from 'src/user/entities/user.entity';
+// import { User } from 'src/user/entities/user.entity';
 import {
   Entity,
   Column,
@@ -39,22 +39,19 @@ export class Bank extends BaseEntity {
   @UpdateDateColumn({ type: 'timestamptz', name: 'updated_at' })
   updatedAt: Date;
 
-  @ManyToMany(() => Transaction, (transaction) => transaction.id)
+  @ManyToMany(() => Transaction, (transaction) => transaction.id, {onDelete: "CASCADE"})
+  @JoinTable({
+    name: 'transactions_banks',
+    joinColumn: {
+      name: 'bank',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'transaction',
+      referencedColumnName: 'id',
+    },
+  })
   transactions: Transaction[];
-
-  //   @ManyToMany(() => Transaction)
-  //   @JoinTable({
-  //     name: 'banks_transactions',
-  //     joinColumn: {
-  //       name: 'bank',
-  //       referencedColumnName: 'id',
-  //     },
-  //     inverseJoinColumn: {
-  //       name: 'transaction',
-  //       referencedColumnName: 'id',
-  //     },
-  //   })
-  //   transactions: Transaction[];
 
   // @OneToMany(
   //     () => Transaction,

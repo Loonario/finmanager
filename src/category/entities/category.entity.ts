@@ -1,4 +1,4 @@
-import { User } from 'src/user/entities/user.entity';
+// import { User } from 'src/user/entities/user.entity';
 import {
   Entity,
   BaseEntity,
@@ -11,10 +11,7 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import {
-  Transaction,
-  transactionType,
-} from '../../transaction/entities/transaction.entity';
+import { Transaction, transactionType } from '../../transaction/entities/transaction.entity';
 
 @Entity('category')
 export class Category {
@@ -32,7 +29,7 @@ export class Category {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToMany(() => Transaction, (transaction) => transaction.id)
+  @ManyToMany(() => Transaction, (transaction) => transaction.id, {onDelete: "CASCADE"})
   @JoinTable({
     name: 'transactions_categories',
     joinColumn: {
@@ -45,20 +42,6 @@ export class Category {
     },
   })
   transactions: Transaction[];
-
-  // @ManyToMany(() => Transaction)
-  // @JoinTable({
-  //   name: 'categories_transactions',
-  //   joinColumn: {
-  //     name: 'category',
-  //     referencedColumnName: 'id',
-  //   },
-  //   inverseJoinColumn: {
-  //     name: 'transaction',
-  //     referencedColumnName: 'id',
-  //   },
-  // })
-  // transactions: Transaction[];
 
   // @ManyToOne(() => User, (user) => user.transactions)
   // @JoinColumn({

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from 'src/category/entities/category.entity';
 import { Transaction } from 'src/transaction/entities/transaction.entity';
-import { Between, MoreThan, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { StatsDto } from './dto/get-stats.dto';
 
 @Injectable()
@@ -10,8 +10,8 @@ export class StatsService {
   constructor(
     @InjectRepository(Category)
     private categoriesRepository: Repository<Category>,
-    @InjectRepository(Transaction)
-    private transRepository: Repository<Transaction>,
+    // @InjectRepository(Transaction)
+    // private transRepository: Repository<Transaction>,
   ) {}
 
   async catSum(statsDto: StatsDto) {

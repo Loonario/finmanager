@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  IsArray,
   IsEnum,
   IsNotEmpty,
   IsNumber,
@@ -19,8 +20,8 @@ export class CreateTransactionDto {
   @ApiProperty()
   readonly amount: number;
 
-  @IsNumber()
+  @IsArray()
   @IsNotEmpty()
   @ApiProperty()
-  readonly categoryId: number;
+  readonly categoryIds: [number];
 }

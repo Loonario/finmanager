@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { BankModule } from './bank/bank.module';
 import { CategoryModule } from './category/category.module';
 import { TransactionModule } from './transaction/transaction.module';
@@ -13,7 +11,6 @@ import { User } from './user/entities/user.entity';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { StatsModule } from './stats/stats.module';
-import { Stats } from './stats';
 
 @Module({
   imports: [
@@ -43,7 +40,5 @@ import { Stats } from './stats';
     UserModule,
     StatsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, Stats],
 })
 export class AppModule {}

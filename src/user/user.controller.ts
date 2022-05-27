@@ -11,9 +11,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { Request } from 'express';
+
 import { JwtGuard } from 'src/auth/guard';
 import { ApiBearerAuth, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { GetUser } from 'src/auth/decorator';

@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { AuthDto } from './dto/auth.dto';
 import * as argon from 'argon2';
 // import * as bcrypt from 'bcrypt';
@@ -42,7 +42,7 @@ export class AuthService {
       name: dto.name,
     });
     if (!user) {
-      throw new ForbiddenException('User does not exist');
+      throw new HttpException('User dnot found', HttpStatus.NOT_FOUND);
     }
     // const pwMatches = await bcrypt.compare(dto.password, user.hash);
     const pwMatches = await argon.verify(user.hash, dto.password);

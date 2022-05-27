@@ -8,10 +8,12 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtStrategy } from './stratagy';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), 
-  JwtModule.register({}), 
-  ConfigModule],
+  imports: [
+    TypeOrmModule.forFeature([User]),
+    JwtModule.register({}),
+    ConfigModule,
+  ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy]
+  providers: [AuthService, JwtStrategy],
 })
 export class AuthModule {}

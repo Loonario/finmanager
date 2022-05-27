@@ -12,12 +12,15 @@ import { Transaction } from './transaction/entities/transaction.entity';
 import { User } from './user/entities/user.entity';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { StatsModule } from './stats/stats.module';
+import { Stats } from './stats';
 
 @Module({
-  imports: [BankModule, 
-    CategoryModule, 
+  imports: [
+    BankModule,
+    CategoryModule,
     TransactionModule,
-    ConfigModule.forRoot({ isGlobal: true}),
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -25,21 +28,22 @@ import { UserModule } from './user/user.module';
         // type: 'postgres' as 'postgres',
         type: config.get<'aurora-data-api'>('TYPEORM_CONNECTION'),
         host: config.get<string>('TYPEORM_HOST'),
+        // host: config.get<string>('TYPEORM_CONNECTION'),
         username: config.get<string>('TYPEORM_USERNAME'),
         password: config.get<string>('TYPEORM_PASSWORD'),
         database: config.get<string>('TYPEORM_DATABASE'),
         port: config.get<number>('TYPEORM_PORT'),
-        entities: [ User, Bank, Category, Transaction],
+        entities: [User, Bank, Category, Transaction],
         synchronize: true,
         autoLoadEntities: true,
         logging: true,
       }),
     }),
     AuthModule,
-    UserModule
+    UserModule,
+    StatsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
-    
+  providers: [AppService, Stats],
 })
 export class AppModule {}

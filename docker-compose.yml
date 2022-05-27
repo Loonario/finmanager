@@ -2,60 +2,62 @@ version: '3.8'
 
 services:
   # Backend API
-  dev:
-    container_name: finmanager_nest_dev
-    image: finmanager_nest_dev:1.0.0
-    build:
-        context: .
-        target: development
-        dockerfile: ./Dockerfile
-    command: npm run start:debug
-    env_file:
-      - .env
-    working_dir: /usr/src/finmanager
-    environment:
-      POSTGRES_URI: postgres://${TYPEORM_USERNAME}:${TYPEORM_PASSWORD}@${TYPEORM_CONNECTION}:${TYPEORM_PORT}/finmanager
-      TZ: ${TZ}
-      # REDIS_URI: ${REDIS_URI}
-    ports:
-      - ${TYPEORM_PORT}:${TYPEORM_PORT}
-    # networks:
-    #         - nestjs-network
-    volumes:
-      - .:/usr/src/finmanager
-      - /usr/src/finmanager/node_modules
-      # - /etc/timezone:/etc/timezone:ro
-      # - /etc/localtime:/etc/localtime:ro
-    restart: unless-stopped
+  # dev:
+  #   container_name: finmanager_nest_dev
+  #   image: finmanager_nest_dev:1.0.0
+  #   build:
+  #       context: .
+  #       target: development
+  #       dockerfile: ./Dockerfile
+  #   command: npm run start:debug
+  #   env_file:
+  #     - .env
+  #   working_dir: /usr/src/finmanager
+  #   environment:
+  #     POSTGRES_URI: postgres://${TYPEORM_USERNAME}:${TYPEORM_PASSWORD}@${TYPEORM_CONNECTION}:${TYPEORM_PORT}/finmanager
+  #     TZ: ${TZ}
+  #     # REDIS_URI: ${REDIS_URI}
+  #   ports:
+  #     - ${TYPEORM_PORT}:${TYPEORM_PORT}
+  #   # networks:
+  #   #         - nestjs-network
+  #   volumes:
+  #     - .:/usr/src/finmanager
+  #     - /usr/src/finmanager/node_modules
+  #     # - /etc/timezone:/etc/timezone:ro
+  #     # - /etc/localtime:/etc/localtime:ro
+  #   restart: unless-stopped
 
-  prod:
+  prod_finman:
     container_name: finmanager_nest_prod
     image: finmanager_nest_prod:1.0.0
     build:
         context: .
-        target: production
+        # target: production
         dockerfile: ./Dockerfile
-    command: npm run start:prod
+    command: npm start
     working_dir: /usr/src/finmanager
     environment:
-      POSTGRES_URI: postgres://${TYPEORM_USERNAME}:${TYPEORM_PASSWORD}@${TYPEORM_CONNECTION}:${TYPEORM_PORT}/finmanager
+      # POSTGRES_URI: postgres://codica:pass@postgres:5432/finmanager_db
+      POSTGRES_URI: postgres://${TYPEORM_USERNAME}:${TYPEORM_PASSWORD}@${TYPEORM_CONNECTION}:${TYPEORM_PORT}/${TYPEORM_DATABASE}
       TZ: ${TZ}
       # REDIS_URI: ${REDIS_URI}
     ports:
       - ${APP_PORT}:${APP_PORT}
-    # networks:
-    #         - nestjs-network
-    volumes:
-      - .:/usr/src/finmanager
-      - /usr/src/finmanager/node_modules
+    networks:
+            - finman-network
+    # volumes:
+    #   - ./:/usr/src/finmanager
+      # - /app/node_modules/bcrypt/
+      # - /usr/src/finmanager/node_modules
       # - /etc/timezone:/etc/timezone:ro
       # - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
 
   # Postgres
   postgres:
-    # networks:
-    #   - nestjs-network
+    networks:
+      - finman-network
     environment:
       POSTGRES_USER: ${TYPEORM_USERNAME}
       POSTGRES_PASSWORD: ${TYPEORM_PASSWORD}
@@ -69,11 +71,12 @@ services:
     build: ./postgres
     ports:
       - ${TYPEORM_PORT}:${TYPEORM_PORT}
-    volumes:
-      - /etc/timezone:/etc/timezone:ro
-      - /etc/localtime:/etc/localtime:ro
+    # volumes:
+      # - /etc/timezone:/etc/timezone:ro
+      # - /etc/localtime:/etc/localtime:ro
     restart: always
-
+networks:
+  finman-network:
  
   # # Redis
   # redis:

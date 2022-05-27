@@ -1,22 +1,59 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  ParseUUIDPipe,
+  HttpStatus,
+  Injectable,
+  UsePipes,
+  ValidationPipe,
+  Query,
+} from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiExtraModels, ApiOkResponse, ApiSecurity, ApiTags, getSchemaPath } from '@nestjs/swagger';
+import { GetUser } from 'src/auth/decorator';
+import { JwtGuard } from 'src/auth/guard';
+import { User } from 'src/user/entities/user.entity';
+import { Transaction } from './entities/transaction.entity';
+import { PaginatedDto } from './dto/paginated-trans.dto';
+import { ApiPaginatedResponse } from './decorator';
+import { PageOptionsDto } from './dto/page-options.dto';
 
 @ApiTags('transactions')
 @Controller('transaction')
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
-  @Post()
-  create(@Body() createTransactionDto: CreateTransactionDto) {
-    return this.transactionService.create(createTransactionDto);
+  @ApiSecurity('Authorization')
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
+  @Post(':bankId')
+  @UsePipes(new ValidationPipe({ transform: true }))
+  create(
+    @Param('bankId', new ParseUUIDPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }))
+     bankId:string,
+    @Body() createTransactionDto: CreateTransactionDto,
+    @GetUser() user: User
+  ): Promise<Transaction> {
+  
+    return this.transactionService.create(bankId, createTransactionDto);
   }
 
+
+  @ApiPaginatedResponse(CreateTransactionDto)
+  @ApiExtraModels(PaginatedDto)
   @Get()
-  findAll() {
-    return this.transactionService.findAll();
+  findAll(
+    @Query() pageOptionsDto: PageOptionsDto
+  ) {
+    return this.transactionService.findAll(pageOptionsDto);
   }
 
   @Get(':id')
@@ -25,7 +62,10 @@ export class TransactionController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTransactionDto: UpdateTransactionDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateTransactionDto: UpdateTransactionDto,
+  ) {
     return this.transactionService.update(+id, updateTransactionDto);
   }
 

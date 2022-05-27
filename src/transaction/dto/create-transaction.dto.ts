@@ -1,21 +1,21 @@
-import { ApiParam, ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { transactionType } from "../entities/transaction.entity"; 
-
+import { ApiProperty } from '@nestjs/swagger';
+import { IsEnum, IsNotEmpty, IsNumber, IsString, IsUUID } from 'class-validator';
+import { transactionType } from '../entities/transaction.entity';
 
 export class CreateTransactionDto {
 
-@ApiProperty ({  enum: ['profitable', 'consumable']})
-readonly trType: transactionType;
+  @IsEnum(transactionType)
+  @IsNotEmpty()
+  @ApiProperty({enum: transactionType, example: transactionType.PROFITABLE})
+  readonly trType: transactionType;
 
-@ApiProperty()
-readonly amount: number;
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly amount: number;
 
-@ApiProperty()
-readonly bankId: string;
-
-constructor({trType, amount}: CreateTransactionDto){
-this.trType = trType;
-this.amount = amount;
-
-}
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty()
+  readonly categoryId: number;
 }

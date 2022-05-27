@@ -1,26 +1,56 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { Category } from './entities/category.entity';
 
 @Injectable()
 export class CategoryService {
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+  constructor(
+    @InjectRepository(Category)
+    private categoryRepository: Repository<Category>,
+  ) {}
+
+  async create(createCategoryDto: CreateCategoryDto) {
+    const newCategory = await this.categoryRepository.create(createCategoryDto);
+    await this.categoryRepository.save(newCategory);
+    return newCategory;
   }
 
-  findAll() {
-    return `This action returns all category`;
+  async findAll() {
+    const allCategories = await this.categoryRepository.find();
+    if (allCategories.length === 0) {
+      throw new HttpException(
+        'Database of banks is empty',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return allCategories;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async findOne(id: number) {
+    const newCategory = await this.categoryRepository.findOne(id);
+    if (!newCategory) {
+      throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
+    }
+    return newCategory;
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
+    await this.categoryRepository.update(id, updateCategoryDto);
+    const updCategory = await this.categoryRepository.findOne(id);
+    if (!updCategory) {
+      throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
+    }
+    return updCategory;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  async remove(id: number) {
+    const delCategory = await this.categoryRepository.delete(id);
+    if (!delCategory.affected) {
+      throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
+    }
+    return 'DELETED';
   }
 }

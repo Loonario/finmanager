@@ -1,32 +1,54 @@
-FROM node:18 as development
+FROM node:18
+ENV NODE_ENV=development
 
 WORKDIR /usr/src/finmanager
-
 COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
-RUN npm install glob rimraf
 
-RUN npm install --only=development
-
-COPY . .
-
+RUN npm install -g @nestjs/cli
+RUN npm install
+# RUN npm install source-map-support
+COPY ./ ./
 RUN npm run build
 
-FROM node:18 as production
+EXPOSE 3000
+# RUN  chown -R node /usr/src/finmanager
 
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+# USER node
+CMD ["npm", "run", "start:prod"]
+# CMD ["node", "dist/main.js"]
+# CMD ["npm", "run", "start"]
+# CMD ["node", "dist/src/main"]
 
-WORKDIR /usr/src/finmanager
 
-COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
 
-RUN npm install --only=production
+# FROM node:18 as development
+# WORKDIR /usr/src/finmanager
 
-COPY . .
+# COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
+# RUN npm install glob rimraf
 
-COPY --from=development /usr/src/finmanager/dist ./dist
+# RUN npm install --only=development
 
-CMD ["node", "dist/main"]
+# COPY . .
+
+# RUN npm run build
+# EXPOSE 3000
+# FROM node:18 as production
+
+# ARG NODE_ENV=production
+# ENV NODE_ENV=${NODE_ENV}
+
+# WORKDIR /usr/src/finmanager
+
+# COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
+
+# RUN npm install --only=production
+
+# COPY . .
+
+# COPY --from=development /usr/src/finmanager/dist ./dist
+# EXPOSE 3000
+# CMD ["node", "dist/main"]
 
 
 

@@ -22,4 +22,5 @@ export class StatsDto {
   @IsNotEmpty()
   @ApiProperty()
   readonly categoryIds: [number];
+
 }

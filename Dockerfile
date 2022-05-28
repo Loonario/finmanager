@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:18-alpine
 ENV NODE_ENV=development
 
 WORKDIR /usr/src/finmanager
@@ -6,6 +6,7 @@ COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
 
 RUN npm install -g @nestjs/cli
 RUN npm install
+RUN npm install -g localtunnel
 # RUN npm install source-map-support
 COPY ./ ./
 RUN npm run build
@@ -13,9 +14,9 @@ RUN npm run build
 EXPOSE 3000
 # RUN  chown -R node /usr/src/finmanager
 
-# USER node
-CMD ["npm", "run", "start:prod"]
-# CMD ["node", "dist/main.js"]
+USER node
+# CMD ["npm", "run", "start:prod"]
+CMD ["node", "dist/main.js"]
 # CMD ["npm", "run", "start"]
 # CMD ["node", "dist/src/main"]
 

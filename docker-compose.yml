@@ -40,7 +40,7 @@ services:
     environment:
       # POSTGRES_URI: postgres://codica:pass@postgres:5432/finmanager_db
       POSTGRES_URI: postgres://${TYPEORM_USERNAME}:${TYPEORM_PASSWORD}@${TYPEORM_CONNECTION}:${TYPEORM_PORT}/${TYPEORM_DATABASE}
-      TZ: ${TZ}
+      # TZ: ${TZ}
       # REDIS_URI: ${REDIS_URI}
     ports:
       - ${APP_PORT}:${APP_PORT}
@@ -63,12 +63,13 @@ services:
       POSTGRES_PASSWORD: ${TYPEORM_PASSWORD}
       POSTGRES_DB: ${TYPEORM_DATABASE}
       POSTGRES_HOST: ${TYPEORM_CONNECTION}
-      TZ: ${TZ}
+      # TZ: ${TZ}
     # command: >
     #   sh -c "ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && 
     #   echo $TZ > /etc/timezone &&
     #   exec my-main-application"
-    build: ./postgres
+    # build: ./postgres
+    image: postgres
     ports:
       - ${TYPEORM_PORT}:${TYPEORM_PORT}
     # volumes:

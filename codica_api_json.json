@@ -1,0 +1,597 @@
+{
+    "openapi": "3.0.0",
+    "paths": {
+        "/bank": {
+            "post": {
+                "operationId": "BankController_create",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateBankDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "banks"
+                ]
+            },
+            "get": {
+                "operationId": "BankController_findAll",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "banks"
+                ]
+            }
+        },
+        "/bank/{id}": {
+            "get": {
+                "operationId": "BankController_findOne",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "banks"
+                ]
+            },
+            "patch": {
+                "operationId": "BankController_update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBankDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "banks"
+                ]
+            },
+            "delete": {
+                "operationId": "BankController_remove",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "banks"
+                ]
+            }
+        },
+        "/category": {
+            "post": {
+                "operationId": "CategoryController_create",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateCategoryDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "categories"
+                ]
+            },
+            "get": {
+                "operationId": "CategoryController_findAll",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "categories"
+                ]
+            }
+        },
+        "/category/{id}": {
+            "get": {
+                "operationId": "CategoryController_findOne",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "categories"
+                ]
+            },
+            "patch": {
+                "operationId": "CategoryController_update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCategoryDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "categories"
+                ]
+            },
+            "delete": {
+                "operationId": "CategoryController_remove",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "categories"
+                ]
+            }
+        },
+        "/transaction/{bankId}": {
+            "post": {
+                "operationId": "TransactionController_create",
+                "parameters": [
+                    {
+                        "name": "bankId",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTransactionDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "transactions"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    },
+                    {
+                        "Authorization": []
+                    }
+                ]
+            }
+        },
+        "/transaction": {
+            "get": {
+                "operationId": "TransactionController_findAll",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "default": 1,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "take",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": 1,
+                            "maximum": 50,
+                            "default": 10,
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/PaginatedDto"
+                                        },
+                                        {
+                                            "properties": {
+                                                "results": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/CreateTransactionDto"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "transactions"
+                ]
+            }
+        },
+        "/transaction/{id}": {
+            "delete": {
+                "operationId": "TransactionController_remove",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "transactions"
+                ]
+            }
+        },
+        "/auth/signup": {
+            "post": {
+                "operationId": "AuthController_signup",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuthDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "auth"
+                ]
+            }
+        },
+        "/auth/signin": {
+            "post": {
+                "operationId": "AuthController_signin",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuthDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "auth"
+                ]
+            }
+        },
+        "/user/check": {
+            "get": {
+                "operationId": "UserController_userCheck",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "users"
+                ],
+                "security": [
+                    {
+                        "bearer": []
+                    },
+                    {
+                        "Authorization": []
+                    }
+                ]
+            }
+        },
+        "/stats": {
+            "post": {
+                "operationId": "StatsController_catSum",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StatsDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "stats"
+                ]
+            }
+        }
+    },
+    "info": {
+        "title": "FinManager",
+        "description": "Codica testing project",
+        "version": "0.0.1",
+        "contact": {}
+    },
+    "tags": [
+        {
+            "name": "cashFlow",
+            "description": ""
+        }
+    ],
+    "servers": [],
+    "components": {
+        "securitySchemes": {
+            "bearer": {
+                "scheme": "bearer",
+                "bearerFormat": "JWT",
+                "type": "http"
+            }
+        },
+        "schemas": {
+            "CreateBankDto": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "balance": {
+                        "type": "number",
+                        "default": 0
+                    },
+                    "card_number": {
+                        "type": "string",
+                        "example": "375556917985515"
+                    }
+                },
+                "required": [
+                    "name",
+                    "card_number"
+                ]
+            },
+            "UpdateBankDto": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "balance": {
+                        "type": "number"
+                    },
+                    "card_number": {
+                        "type": "string",
+                        "example": "5105105105105100"
+                    }
+                }
+            },
+            "CreateCategoryDto": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name"
+                ]
+            },
+            "UpdateCategoryDto": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateTransactionDto": {
+                "type": "object",
+                "properties": {
+                    "trType": {
+                        "type": "string",
+                        "enum": [
+                            "profitable",
+                            "consumable"
+                        ],
+                        "example": "profitable"
+                    },
+                    "amount": {
+                        "type": "number"
+                    },
+                    "categoryIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": [
+                    "trType",
+                    "amount",
+                    "categoryIds"
+                ]
+            },
+            "PaginatedDto": {
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "type": "number"
+                    },
+                    "offset": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "total",
+                    "offset"
+                ]
+            },
+            "AuthDto": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name",
+                    "password"
+                ]
+            },
+            "StatsDto": {
+                "type": "object",
+                "properties": {
+                    "dateFrom": {
+                        "type": "string"
+                    },
+                    "dateTo": {
+                        "type": "string"
+                    },
+                    "categoryIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": [
+                    "categoryIds"
+                ]
+            }
+        }
+    }
+}
